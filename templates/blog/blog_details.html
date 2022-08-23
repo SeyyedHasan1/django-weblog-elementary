@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{post.body}}</h1>
+
+<a href={% url "blog:share_post" post.id %}>share</a>
+<div>
+    <form method='POST'>
+        {% csrf_token %}
+        {% for field in form %}
+        <div>
+            {{ field.errors }}
+            {{ field.label_tag }}<br>
+            {{ field }} 
+        </div>
+        {% endfor %}
+       
+        <input type='submit' value='send e-mail'>
+    </form>
+</div>
+{% endblock content %}
+
+
+
+
+
