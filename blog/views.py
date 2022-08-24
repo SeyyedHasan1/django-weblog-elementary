@@ -67,7 +67,7 @@ def share_post(request, pk):
             subject = f"{cd['name']} recommend you"
             message = f"{post.title} in {post_url} and {cd['comment']}"
             send_mail(
-                subject,message,"hasanagha65070@gmail.com",
+                subject,message,"admin@gmail.com",
                 [cd['to']]
             )
     
@@ -81,17 +81,17 @@ def share_post(request, pk):
     return render(request, 'blog/share_post.html', context)
 
 
-# def post_serach(request):
-#     form = SerachForm()
-#     query = None
-#     results = []
-#     if 'query' in request.GET:
-#         form = SerachForm(request.GET)
-#         if form.is_valid():
-#             query = form.cleaned_data['query']
+def post_serach(request):
+    form = SerachForm()
+    query = None
+    results = []
+    if 'query' in request.GET:
+        form = SerachForm(request.GET)
+        if form.is_valid():
+            query = form.cleaned_data['query']
 
-#             # A B C D => 1.0 , 0.4 , 0.2 , 0.1
-#             search_vector = SearchVector('title', weight='A') + SearchVector('body' , weight="C")
-#             serach_query = SearchQuery(query)
-#             results = Post.published.annotate(search=search_vector,rank=SearchRank(search_vector, serach_query)).filter(rank__gte=0.5).order_by('-rank')
-#     return render(request, 'blog/post/search.html',{'form':form,'query':query,'results':results})
+            # A B C D => 1.0 , 0.4 , 0.2 , 0.1
+            search_vector = SearchVector('title', weight='A') + SearchVector('body' , weight="C")
+            serach_query = SearchQuery(query)
+            results = Post.published.annotate(search=search_vector,rank=SearchRank(search_vector, serach_query)).filter(rank__gte=0.5).order_by('-rank')
+    return render(request, 'blog/post/search.html',{'form':form,'query':query,'results':results})
